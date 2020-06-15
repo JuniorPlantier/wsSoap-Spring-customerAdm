@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetCustomerDetailResponse xmlns="http://plantierjr.com.br"
+ 						   xsi:schemaLocation="http://plantierjr.com.br customer-information.xsd"
+						   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<CustomerDetail>
+		<id>1</id>
+		<name>Thiago Volpi</name>
+		<phone>11 981125756</phone>
+		<email>rogerio@spfc.com</email>
+	</CustomerDetail>
+</GetCustomerDetailResponse>
