@@ -1,30 +1,65 @@
 package com.plantier.soap.ws.wsSoapcustomersAdm.soap;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.plantier.soap.ws.wsSoapcustomersAdm.bean.Customer;
+import com.plantier.soap.ws.wsSoapcustomersAdm.service.CustomerDetailService;
+
 import br.com.plantierjr.CustomerDetail;
+import br.com.plantierjr.GetAllCustomerDetailRequest;
+import br.com.plantierjr.GetAllCustomerDetailResponse;
 import br.com.plantierjr.GetCustomerDetailRequest;
 import br.com.plantierjr.GetCustomerDetailResponse;
 
 @Endpoint
 public class CustomerDetailEndpoint {
 
+	@Autowired
+	CustomerDetailService service;
+	
 	@PayloadRoot(namespace="http://plantierjr.com.br", localPart="GetCustomerDetailRequest")
 	@ResponsePayload
-	public GetCustomerDetailResponse processCustomerDetailRequest(@RequestPayload GetCustomerDetailRequest req) {
+	public GetCustomerDetailResponse processCustomerDetailRequest(@RequestPayload GetCustomerDetailRequest req) throws Exception {
+		Customer customer = service.findById(req.getId());
+		if(customer == null) {
+			throw new Exception("Invalid Customer Id: " + req.getId());
+		}
+		return convertToGetCustomerDetailResponse(customer);
+	}
+	
+	@PayloadRoot(namespace="http://plantierjr.com.br", localPart="GetAllCustomerDetailRequest")
+	@ResponsePayload
+	public GetAllCustomerDetailResponse processGetAllCustomerDetailResponse(@RequestPayload GetAllCustomerDetailRequest req) {
+		List<Customer> customers = service.findAll();
+		return convertToGetAllCustomerDetailResponse(customers);
+	}
+	
+	private GetCustomerDetailResponse convertToGetCustomerDetailResponse(Customer customer) {
 		GetCustomerDetailResponse resp = new GetCustomerDetailResponse();
-		
-		CustomerDetail customer = new CustomerDetail();
-		customer.setId(1);
-		customer.setName("Rogério Ceni");
-		customer.setEmail("ceni@spfc.com.br");
-		customer.setPhone("11 981125756");
-		resp.setCustomerDetail(customer);
-		
+		resp.setCustomerDetail(convertToCustomerDetail(customer));
 		return resp;
 	}
+	
+	private GetAllCustomerDetailResponse convertToGetAllCustomerDetailResponse(List<Customer> customers) {
+		GetAllCustomerDetailResponse resp = new GetAllCustomerDetailResponse();
+		customers.stream().forEach(c -> resp.getCustomerDetail().add(convertToCustomerDetail(c)));
+		return resp;
+	}
+	
+	private CustomerDetail convertToCustomerDetail(Customer customer) {
+		CustomerDetail cd = new CustomerDetail();
+		cd.setId(customer.getId());
+		cd.setName(customer.getName());
+		cd.setPhone(customer.getPhone());
+		cd.setEmail(customer.getEmail());
+		return cd;
+	}
+	
 	
 }
