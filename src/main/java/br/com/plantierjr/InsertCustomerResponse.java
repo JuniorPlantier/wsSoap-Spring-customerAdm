@@ -10,6 +10,7 @@ package br.com.plantierjr;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="status" type="{http://plantierjr.com.br}Status"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,27 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "id"
+    "status"
 })
-@XmlRootElement(name = "DeleteCustomerRequest")
-public class DeleteCustomerRequest {
+@XmlRootElement(name = "InsertCustomerResponse")
+public class InsertCustomerResponse {
 
-    protected int id;
+    @XmlElement(required = true)
+    protected Status status;
 
     /**
-     * Obtém o valor da propriedade id.
+     * Obtém o valor da propriedade status.
      * 
+     * @return
+     *     possible object is
+     *     {@link Status }
+     *     
      */
-    public int getId() {
-        return id;
+    public Status getStatus() {
+        return status;
     }
 
     /**
-     * Define o valor da propriedade id.
+     * Define o valor da propriedade status.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link Status }
+     *     
      */
-    public void setId(int value) {
-        this.id = value;
+    public void setStatus(Status value) {
+        this.status = value;
     }
 
 }

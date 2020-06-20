@@ -19,6 +19,8 @@ import br.com.plantierjr.GetAllCustomerDetailRequest;
 import br.com.plantierjr.GetAllCustomerDetailResponse;
 import br.com.plantierjr.GetCustomerDetailRequest;
 import br.com.plantierjr.GetCustomerDetailResponse;
+import br.com.plantierjr.InsertCustomerRequest;
+import br.com.plantierjr.InsertCustomerResponse;
 
 @Endpoint
 public class CustomerDetailEndpoint {
@@ -51,6 +53,14 @@ public class CustomerDetailEndpoint {
 		return resp;
 	}
 	
+	@PayloadRoot(namespace="http://plantierjr.com.br", localPart="InsertCustomerRequest")
+	@ResponsePayload
+	public InsertCustomerResponse insertCustomerRequest(@RequestPayload InsertCustomerRequest req) {
+		InsertCustomerResponse resp = new InsertCustomerResponse();
+		resp.setStatus(convertToStatusSoap(service.insert(convertToCustomer(req.getCustomerDetail()))));
+		return resp;
+	}
+	
 	private GetCustomerDetailResponse convertToGetCustomerDetailResponse(Customer customer) {
 		GetCustomerDetailResponse resp = new GetCustomerDetailResponse();
 		resp.setCustomerDetail(convertToCustomerDetail(customer));
@@ -79,5 +89,9 @@ public class CustomerDetailEndpoint {
 		} else {
 			return br.com.plantierjr.Status.SUCCESS;
 		}
+	}
+	
+	private Customer convertToCustomer(CustomerDetail customerDetail) {
+		return new Customer(customerDetail.getId(), customerDetail.getName(), customerDetail.getPhone(), customerDetail.getEmail());
 	}
 }

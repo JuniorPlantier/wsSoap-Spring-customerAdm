@@ -3,6 +3,24 @@
 	    targetNamespace="http://plantierjr.com.br" 
 	    xmlns:tns="http://plantierjr.com.br" 
 	    elementFormDefault="qualified">
+
+	<!-- ########## ########## ########## Operações DML ########## ########## ########## -->
+	<xs:element name="InsertCustomerRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CustomerDetail" type="tns:CustomerDetail"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="InsertCustomerResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="status" type="tns:Status"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- ########## ########## ########## -->
 	
 	<xs:element name="GetCustomerDetailRequest">
 		<xs:complexType>

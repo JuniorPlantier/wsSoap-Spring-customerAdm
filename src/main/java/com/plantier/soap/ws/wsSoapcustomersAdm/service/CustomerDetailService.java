@@ -51,4 +51,10 @@ public class CustomerDetailService {
 		}
 		return Status.FAILURE;
 	}
+	
+	public Status insert(Customer customer) {
+		customers.add(customer);
+		return Status.SUCCESS;
+	}
+	
 }
