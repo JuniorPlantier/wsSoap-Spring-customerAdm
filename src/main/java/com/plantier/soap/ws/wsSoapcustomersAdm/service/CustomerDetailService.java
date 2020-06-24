@@ -1,17 +1,19 @@
 package com.plantier.soap.ws.wsSoapcustomersAdm.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.plantier.soap.ws.wsSoapcustomersAdm.bean.Customer;
 import com.plantier.soap.ws.wsSoapcustomersAdm.helper.Status;
+import com.plantier.soap.ws.wsSoapcustomersAdm.repository.CustomerRepository;
 
 @Component
 public class CustomerDetailService {
-
+	
+	/*
 	private static List<Customer> customers = new ArrayList<>();
 	
 	static {
@@ -30,9 +32,14 @@ public class CustomerDetailService {
 		Customer c4 = new Customer(4,"Karen Elen","karen@prefeitura.com.br","14 545874523");
 		customers.add(c4);
 	}
+	*/
 	
-	public Customer findById(int id) {
-		Optional<Customer> customer = customers.stream().filter(c -> c.getId() == id).findAny();
+	@Autowired
+	private CustomerRepository customerRepository; 
+	
+	public Customer findById(Integer id) {
+		Optional<Customer> customer = customerRepository.findById(id); 
+	    //customers.stream().filter(c -> c.getId() == id).findAny();
 		if(customer.isPresent()) {
 			return customer.get();
 		}
@@ -40,21 +47,36 @@ public class CustomerDetailService {
 	}
 	
 	public List<Customer> findAll() {
-		return customers;
+		//return customers;
+		return customerRepository.findAll();
 	}
 	
-	public Status deleteById(int id) {
+	public Status deleteById(Integer id) {
+		/*
 		Customer customer = this.findById(id);
 		if(customer != null) {
 			customers.remove(customer);
 			return Status.SUCCESS;
 		}
 		return Status.FAILURE;
+		*/
+		try {
+			customerRepository.deleteById(id);
+			return Status.SUCCESS;
+		} catch(Exception e) {
+			return Status.FAILURE;
+		}
 	}
 	
 	public Status insert(Customer customer) {
-		customers.add(customer);
-		return Status.SUCCESS;
+		//customers.add(customer);
+		//return Status.SUCCESS;
+		try {
+			customerRepository.save(customer);
+			return Status.SUCCESS;
+		} catch(Exception e) {
+			return Status.FAILURE;
+		}
 	}
 	
 }

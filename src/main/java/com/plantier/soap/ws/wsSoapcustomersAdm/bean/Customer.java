@@ -1,13 +1,23 @@
 package com.plantier.soap.ws.wsSoapcustomersAdm.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Customer {
 
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String name;
 	private String phone;
 	private String email;
 	
 	public Customer() {
+		super();
 	}
 	
 	public Customer(int id, String name, String phone, String email) {
@@ -18,11 +28,11 @@ public class Customer {
 		this.email = email;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
